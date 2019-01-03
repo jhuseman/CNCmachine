@@ -68,7 +68,7 @@ class GcodeInterpreter(object):
 
 
 #%% main run function
-def run(in_code=('linuxcnc.gcode', 'r'), out_stream=('COM5',{'baudrate':115200}), out_feedback_stream='out', err_stream='STDERR', calib=('calibration.json', 'r'), init_param=('defaults.json', 'r'), time_manager=time, stat_store = None):
+def run(in_code=('linuxcnc.gcode', 'r'), out_stream=('/dev/ttyS0',{'baudrate':115200}), out_feedback_stream='out', err_stream='STDERR', calib=('calibration.json', 'r'), init_param=('defaults.json', 'r'), time_manager=time, stat_store = None):
 	with gen_stream.gen_stream(calib) as calib_file:
 		calib_data = json.load(calib_file)
 	with gen_stream.gen_stream(init_param) as init_file:
@@ -99,6 +99,12 @@ def run(in_code=('linuxcnc.gcode', 'r'), out_stream=('COM5',{'baudrate':115200})
 def run_friendly(preset=['default','dry_run'][0], *args_override, **kwargs_override):
 	default_vals = {
 		'default':{'args':[],'kwargs':{},},
+		'windows':{
+			'args':[],
+			'kwargs':{
+				'out_stream':('COM5',{'baudrate':115200}),
+			},
+		},
 		'dry_run':{
 			'args':[],
 			'kwargs':{
