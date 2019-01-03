@@ -1,0 +1,51 @@
+(begin preamble)
+G17
+G90
+;G90.1 ;needed for simulation only
+G80
+G40
+G21
+(begin operation: Default Tool)
+(Path: Default Tool)
+(Default Tool)
+(begin toolchange)
+M6 T1
+M3 S0
+(finish operation: Default Tool)
+(begin operation: Contour)
+(Path: Contour)
+(Contour)
+(Compensated Tool Path. Diameter: 5.0)
+G0 Z6.000
+G0 X85.768 Y49.268
+G0 Z4.000
+G1 X85.768 Y49.268 Z-4.000
+G2 X86.500 Y47.500 Z-4.000 I-1.768 J-1.768
+G1 X86.500 Y-52.500 Z-4.000
+G2 X84.000 Y-55.000 Z-4.000 I-2.500 J0.000
+G1 X-81.000 Y-55.000 Z-4.000
+G2 X-83.500 Y-52.500 Z-4.000 I0.000 J2.500
+G1 X-83.500 Y47.500 Z-4.000
+G2 X-81.000 Y50.000 Z-4.000 I2.500 J-0.000
+G1 X84.000 Y50.000 Z-4.000
+G2 X85.768 Y49.268 Z-4.000 I-0.000 J-2.500
+G1 X85.768 Y49.268 Z-8.000
+G2 X86.500 Y47.500 Z-8.000 I-1.768 J-1.768
+G1 X86.500 Y-52.500 Z-8.000
+G2 X84.000 Y-55.000 Z-8.000 I-2.500 J0.000
+G1 X-81.000 Y-55.000 Z-8.000
+G2 X-83.500 Y-52.500 Z-8.000 I0.000 J2.500
+G1 X-83.500 Y47.500 Z-8.000
+G2 X-81.000 Y50.000 Z-8.000 I2.500 J-0.000
+G1 X84.000 Y50.000 Z-8.000
+G2 X85.768 Y49.268 Z-8.000 I-0.000 J-2.500
+G0 Z6.000
+(finish operation: Contour)
+(begin postamble)
+M09
+M05
+G80
+G40
+G17
+G90
+M30

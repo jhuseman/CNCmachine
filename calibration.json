@@ -1,0 +1,17 @@
+{
+		"x":{
+		"unit":"m",
+		"dist":0.1,
+		"pulses":800
+	},
+		"y":{
+		"unit":"m",
+		"dist":0.1,
+		"pulses":800
+	},
+		"z":{
+		"unit":"m",
+		"dist":0.1,
+		"pulses":800
+	}
+}

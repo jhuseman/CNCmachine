@@ -1,0 +1,45 @@
+(Exported by FreeCAD)
+(Post Processor: linuxcnc_post)
+(Output Time:2018-12-04 12:51:38.081000)
+(begin preamble)
+G17 G54 G40 G49 G80 G90
+G21
+(begin operation: Default Tool)
+(machine: not set, mm/min)
+(Default Tool)
+M6 T1
+M3 S0
+(finish operation: Default Tool)
+(begin operation: Contour)
+(machine: not set, mm/min)
+(Contour)
+(Compensated Tool Path. Diameter: 5.0)
+G0 Z6.000
+G0 X85.768 Y49.268
+G0 Z4.000
+G1 X85.768 Y49.268 Z-4.000
+G2 X86.500 Y47.500 Z-4.000 I-1.768 J-1.768
+G1 X86.500 Y-52.500 Z-4.000
+G2 X84.000 Y-55.000 Z-4.000 I-2.500 J0.000
+G1 X-81.000 Y-55.000 Z-4.000
+G2 X-83.500 Y-52.500 Z-4.000 I0.000 J2.500
+G1 X-83.500 Y47.500 Z-4.000
+G2 X-81.000 Y50.000 Z-4.000 I2.500 J-0.000
+G1 X84.000 Y50.000 Z-4.000
+G2 X85.768 Y49.268 Z-4.000 I-0.000 J-2.500
+G1 X85.768 Y49.268 Z-8.000
+G2 X86.500 Y47.500 Z-8.000 I-1.768 J-1.768
+G1 X86.500 Y-52.500 Z-8.000
+G2 X84.000 Y-55.000 Z-8.000 I-2.500 J0.000
+G1 X-81.000 Y-55.000 Z-8.000
+G2 X-83.500 Y-52.500 Z-8.000 I0.000 J2.500
+G1 X-83.500 Y47.500 Z-8.000
+G2 X-81.000 Y50.000 Z-8.000 I2.500 J-0.000
+G1 X84.000 Y50.000 Z-8.000
+G2 X85.768 Y49.268 Z-8.000 I-0.000 J-2.500
+G0 Z6.000
+(finish operation: Contour)
+(begin postamble)
+M05
+G17 G54 G90 G80 G40
+M2

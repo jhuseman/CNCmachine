@@ -1,0 +1,6 @@
+{
+	"speed":200,
+	"travel_speed":2000,
+	"relative":false,
+	"units":"mm"
+}

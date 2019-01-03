@@ -1,0 +1,33 @@
+xs1000		# sets speed of the x axis to 1000 pulses per second
+ym100		# moves y axis 100 pulses in the positive direction
+zm-10		# moves z axis 10 pulses in the negative direction
+xm+10000	# moves x axis 10000 pulses in the positive direction (+ sign is optional on all positive numbers)
+yg10		# moves the y axis to the position 10 pulses in the positive direction from the last reset
+zw100		# sets the pulse width of the z axis to 100 microseconds - this value multiplied with the speed of the axis cannot be above 1000000
+xr			# resets/homes the position value of the x axis to 0 without any pulses - resets the origin of the axis to the current position
+yq			# returns a dump of all variables relating to the y axis in JSON format - can be used to monitor location, speed, direction, target position, etc.
+
+
+
+
+{
+	"axis":"x",						# the axis this data pertains to
+	"params":{
+		"pulse_pin":13,				# pin used for pulse output
+		"dir_pin":12,				# pin used for direction output
+		"reverse_direction":0,		# indicates direction pin should be inverted
+		"current_output_value":0,	# equals 1 when pulse pin is pulled HIGH
+		"position":0,				# current position of the axis
+		"target_pos":0,				# target position axis is moving towards
+		"direction":0,				# current direction of movement - equals 1 when moving in negative direction
+		"pulse_spacing":0,			# time in microseconds between pulses at currently set speed
+		"next_pulse":655360,		# timestamp at which next pulse will start
+		"end_pulse_time":3080192,	# timestamp at which current pulse will stop (if currently pulsing)
+		"pulse_width":100,			# length in microseconds of pulses
+		"catchup_threshold":0,		# maximum duration to compensate for slow previous iterations before slowing down pulses due to slow computation
+		"pulse_error":0,			# total time in microseconds lost each second due to rounding errors - used to compensate for this time at end of each second
+		"pulse_error_acc":0,		# total time in microseconds lost due to rounding errors since last time correction - once this equals "speed", a time correction is necessary
+		"speed":0,					# current speed set for this axis - only used internally for calculation of "pulse_spacing" and comparison with "pulse_error_acc"
+		"cur_time":4046420			# current timestamp in microseconds since power on or previous "wrap-around" of time (resets to 0 approx every 70 minutes)
+	}
+}

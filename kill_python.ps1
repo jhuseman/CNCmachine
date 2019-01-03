@@ -1,0 +1,1 @@
+Get-Process | Where-Object {$_.Path -like "python.exe"} |Stop-Process -WhatIf
