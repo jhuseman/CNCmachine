@@ -30,6 +30,8 @@ class MovementStep(object):
 			self.dx = self.x - self.prev_status['Xpos']
 			self.dy = self.y - self.prev_status['Ypos']
 			self.dz = self.z - self.prev_status['Zpos']
+		print(self.prev_status) #DEBUG
+		print(self.relative, self.dx, self.dy, self.dz) #DEBUG
 
 		# parameters used by query_status when having to estimate the position from elapsed time
 		self.start_clock_time = None
@@ -38,7 +40,6 @@ class MovementStep(object):
 	def run(self, out_stream=sys.stdout, in_stream=None, time_manager=time, stat_store=None):
 		commands = []
 		move_dist = math.sqrt(self.dx*self.dx + self.dy*self.dy + self.dz*self.dz)
-		print(self.relative, self.dx, self.dy, self.dz) #DEBUG
 		xpulses = units.convert_to_pulses(self.dx, self.calibration_info['x'], self.units)
 		ypulses = units.convert_to_pulses(self.dy, self.calibration_info['y'], self.units)
 		zpulses = units.convert_to_pulses(self.dz, self.calibration_info['z'], self.units)
@@ -208,9 +209,14 @@ class MovementStep(object):
 				vals.update(gcode_tokens)
 				ret = [MovementStep(speed=vals['S'], x=vals['X'],y=vals['Y'],z=vals['Z'], relative=state['relative'], units=state['units'], prev_status=state, calibration_info=calibration_info)]
 				state['speed'] = vals['S']
-				state['Xpos'] = state['Xpos'] + vals['X']
-				state['Ypos'] = state['Ypos'] + vals['Y']
-				state['Zpos'] = state['Zpos'] + vals['Z']
+				if state['relative']:
+					state['Xpos'] = state['Xpos'] + vals['X']
+					state['Ypos'] = state['Ypos'] + vals['Y']
+					state['Zpos'] = state['Zpos'] + vals['Z']
+				else:
+					state['Xpos'] = vals['X']
+					state['Ypos'] = vals['Y']
+					state['Zpos'] = vals['Z']
 			elif gcode_tokens['G']==0:
 				vals = {
 					'X':{True:0,False:state['Xpos']}[state['relative']],
@@ -221,9 +227,14 @@ class MovementStep(object):
 				vals.update(gcode_tokens)
 				ret = [MovementStep(speed=vals['S'], x=vals['X'],y=vals['Y'],z=vals['Z'], relative=state['relative'], units=state['units'], prev_status=state, calibration_info=calibration_info)]
 				state['travel_speed'] = vals['S']
-				state['Xpos'] = state['Xpos'] + vals['X']
-				state['Ypos'] = state['Ypos'] + vals['Y']
-				state['Zpos'] = state['Zpos'] + vals['Z']
+				if state['relative']:
+					state['Xpos'] = state['Xpos'] + vals['X']
+					state['Ypos'] = state['Ypos'] + vals['Y']
+					state['Zpos'] = state['Zpos'] + vals['Z']
+				else:
+					state['Xpos'] = vals['X']
+					state['Ypos'] = vals['Y']
+					state['Zpos'] = vals['Z']
 			else:
 				err_stream.write("WARNING: unrecognized G code: {}\n".format(gcode_split.dict2gcode(gcode_tokens, token_order)))
 		else:
