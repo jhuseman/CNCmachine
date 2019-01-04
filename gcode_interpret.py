@@ -71,7 +71,7 @@ class GcodeInterpreter(object):
 
 
 #%% main run function
-def run(in_code=('tee',(('linuxcnc.gcode', 'r'),'STDERR')), out_stream=('multi',(['STDOUT',('/dev/ttyS0',{'baudrate':115200})])), out_feedback_stream='out', err_stream='STDERR', calib=('calibration.json', 'r'), init_param=('defaults.json', 'r'), time_manager=time, stat_store = None):
+def run(in_code=('tee',(('linuxcnc.gcode', 'r'),'STDERR')), out_stream=('tee',(('/dev/ttyS0',{'baudrate':115200}),'STDOUT')), out_feedback_stream='out', err_stream='STDERR', calib=('calibration.json', 'r'), init_param=('defaults.json', 'r'), time_manager=time, stat_store = None):
 	with gen_stream.gen_stream(calib) as calib_file:
 		calib_data = json.load(calib_file)
 	with gen_stream.gen_stream(init_param) as init_file:
@@ -99,7 +99,7 @@ def run(in_code=('tee',(('linuxcnc.gcode', 'r'),'STDERR')), out_stream=('multi',
 		stream.close()
 
 #%% friendlier run function
-def run_friendly(preset=['default','dry_run'][0], *args_override, **kwargs_override):
+def run_friendly(preset=['default','windows','dry_run','dry_run_fast'][0], *args_override, **kwargs_override):
 	default_vals = {
 		'default':{'args':[],'kwargs':{},},
 		'windows':{
