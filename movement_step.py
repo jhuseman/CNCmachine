@@ -21,16 +21,7 @@ class MovementStep(object):
 		self.action = action # an "action" to perform in the command - currently unused, but can be utilized later to do special commands like pulse width adjustment, resetting position counters, or forcing a status dump
 		self.prev_status = prev_status.copy()
 		self.calibration_info = calibration_info
-
-		# parameters used by query_status when having to estimate the position from elapsed time
-		self.start_clock_time = None
-		self.duration = None
-		self.dx = None
-		self.dy = None
-		self.dz = None
-	
-	def run(self, out_stream=sys.stdout, in_stream=None, time_manager=time, stat_store=None):
-		commands = []
+		# calculate relative position
 		if self.relative:
 			self.dx = self.x
 			self.dy = self.y
@@ -39,6 +30,13 @@ class MovementStep(object):
 			self.dx = self.x - self.prev_status['Xpos']
 			self.dy = self.y - self.prev_status['Ypos']
 			self.dz = self.z - self.prev_status['Zpos']
+
+		# parameters used by query_status when having to estimate the position from elapsed time
+		self.start_clock_time = None
+		self.duration = None
+	
+	def run(self, out_stream=sys.stdout, in_stream=None, time_manager=time, stat_store=None):
+		commands = []
 		move_dist = math.sqrt(self.dx*self.dx + self.dy*self.dy + self.dz*self.dz)
 		print(self.relative, self.dx, self.dy, self.dz) #DEBUG
 		xpulses = units.convert_to_pulses(self.dx, self.calibration_info['x'], self.units)
@@ -226,6 +224,20 @@ class MovementStep(object):
 				state['Xpos'] = state['Xpos'] + vals['X']
 				state['Ypos'] = state['Ypos'] + vals['Y']
 				state['Zpos'] = state['Zpos'] + vals['Z']
+			else:
+				err_stream.write("WARNING: unrecognized G code: {}\n".format(gcode_split.dict2gcode(gcode_tokens, token_order)))
 		else:
 			err_stream.write("WARNING: unrecognized Gcode command: {}\n".format(gcode_split.dict2gcode(gcode_tokens, token_order)))
 		return (ret, state)
+
+
+#%% test code
+if __name__=='__main__':
+	ret,state = MovementStep.list_from_gcode(*gcode_split.gcode2dict("G1 X85.768 Y49.268 Z-4.000"))
+	print(ret, state)
+	ret,state = MovementStep.list_from_gcode(*gcode_split.gcode2dict("G1 X85.768 Y49.268 Z-4.000"), current_state=state)
+	print(ret, state)
+	ret,state = MovementStep.list_from_gcode(*gcode_split.gcode2dict("G1 X-85.768 Y-49.268 Z4.000"), current_state=state)
+	print(ret, state)
+	ret,state = MovementStep.list_from_gcode(*gcode_split.gcode2dict("G1 X-85.768 Y-49.268 Z4.000"), current_state=state)
+	print(ret, state)
