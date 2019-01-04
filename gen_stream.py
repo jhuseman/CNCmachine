@@ -5,6 +5,8 @@ import sys
 import serial
 
 import stdio
+import multi_stream
+import tee_stream
 
 #%% define class
 class gen_stream(object):
@@ -23,36 +25,48 @@ class gen_stream(object):
 						args = args + list(idlist[i])
 					else:
 						args.append(idlist[i])
-		if ident[:3]=='COM' or ident[:8]=='/dev/tty':
-			self.fobj = serial.Serial(ident, *args, **kwargs)
-			# additional setup for serial encoding support
-			def serial_write(data):
-				if isinstance(data, str):
-					ser_data = data.encode('utf-8')
-				else:
-					ser_data = data
-				return self.fobj.write(ser_data)
-			def serial_read(*args, **kwargs):
-				ret = self.fobj.read(*args, **kwargs)
-				if isinstance(ret, str):
-					return ret
-				else:
-					return ret.decode('utf-8')
-			def serial_readline(*args, **kwargs):
-				ret = self.fobj.readline(*args, **kwargs)
-				if isinstance(ret, str):
-					return ret
-				else:
-					return ret.decode('utf-8')
-			setattr(self, 'write', serial_write)
-			setattr(self, 'read', serial_read)
-			setattr(self, 'readline', serial_readline)
-		elif ident=='STDIO':
-			self.fobj = stdio.stdio()
-		elif ident=='STDERR':
-			self.fobj = sys.stderr
+		if type(ident) in [str]:
+			if ident[:3]=='COM' or ident[:8]=='/dev/tty':
+				self.fobj = serial.Serial(ident, *args, **kwargs)
+				# additional setup for serial encoding support
+				def serial_write(data):
+					if isinstance(data, str):
+						ser_data = data.encode('utf-8')
+					else:
+						ser_data = data
+					return self.fobj.write(ser_data)
+				def serial_read(*args, **kwargs):
+					ret = self.fobj.read(*args, **kwargs)
+					if isinstance(ret, str):
+						return ret
+					else:
+						return ret.decode('utf-8')
+				def serial_readline(*args, **kwargs):
+					ret = self.fobj.readline(*args, **kwargs)
+					if isinstance(ret, str):
+						return ret
+					else:
+						return ret.decode('utf-8')
+				setattr(self, 'write', serial_write)
+				setattr(self, 'read', serial_read)
+				setattr(self, 'readline', serial_readline)
+			elif ident=='STDIO':
+				self.fobj = stdio.stdio()
+			elif ident=='STDIN':
+				self.fobj = sys.stdin
+			elif ident=='STDOUT':
+				self.fobj = sys.stdout
+			elif ident=='STDERR':
+				self.fobj = sys.stderr
+			elif ident=='multi':
+				self.fobj = multi_stream.MultiStream(*args, **kwargs)
+			elif ident=='tee':
+				self.fobj = tee_stream.TeeStream(*args, **kwargs)
+			else:
+				self.fobj = open(ident, *args, **kwargs)
 		else:
-			self.fobj = open(ident, *args, **kwargs)
+			# assume is a file-like object and will work as normal
+			self.fobj = ident
 		self.extend_methods()
 	
 	def extend_methods(self):

@@ -62,7 +62,6 @@ class GcodeInterpreter(object):
 		continuing = True
 		while continuing:
 			line = self.in_code_stream.readline()
-			self.error_stream.write(line) #DEBUG - output current line
 			if line=='':
 				continuing = False
 			else:
@@ -72,7 +71,7 @@ class GcodeInterpreter(object):
 
 
 #%% main run function
-def run(in_code=('linuxcnc.gcode', 'r'), out_stream=('/dev/ttyS0',{'baudrate':115200}), out_feedback_stream='out', err_stream='STDERR', calib=('calibration.json', 'r'), init_param=('defaults.json', 'r'), time_manager=time, stat_store = None):
+def run(in_code=('tee',(('linuxcnc.gcode', 'r'),'STDERR')), out_stream=('multi',(['STDOUT',('/dev/ttyS0',{'baudrate':115200})])), out_feedback_stream='out', err_stream='STDERR', calib=('calibration.json', 'r'), init_param=('defaults.json', 'r'), time_manager=time, stat_store = None):
 	with gen_stream.gen_stream(calib) as calib_file:
 		calib_data = json.load(calib_file)
 	with gen_stream.gen_stream(init_param) as init_file:

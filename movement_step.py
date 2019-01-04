@@ -64,7 +64,6 @@ class MovementStep(object):
 		if zpulses!=0:
 			commands.append('zm{}'.format(zpulses))
 		for com in commands:
-			print(com) #DEBUG
 			out_stream.write(com)
 			out_stream.write('\n')
 		out_stream.flush()

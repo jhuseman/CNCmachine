@@ -68,4 +68,4 @@ class stdio(object):
 #%% test
 if __name__=='__main__':
 	with stdio() as a:
-		a.write(a.readline())
+		a.write(a.readline()) # pylint: disable=E1101
