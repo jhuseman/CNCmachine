@@ -41,6 +41,11 @@ class GcodeInterpreter(object):
 		while line[-1]=='\n': # remove trailing newline
 			line = line[:-1]
 		line_start = line[0]
+		if len(line.split(' '+line_start)) > 1:
+			# multiple tokens of the same type on this line - split off the first one, then interpret the rest recursively
+			tokens = line.split(' '+line_start, 1)
+			ret = self.interpret_line(tokens[0])
+			return ret + self.interpret_line(line_start+tokens[1])
 		if line_start=='G':
 			# G command - interpret as MovementStep
 			ret,state = movement_step.MovementStep.list_from_gcode(*gcode_split.gcode2dict(line), current_state=self.state, err_stream=self.error_stream, calibration_info=self.calibration_info)
