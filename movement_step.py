@@ -162,6 +162,8 @@ class MovementStep(object):
 					progress = ((tot_pulses - pulses_left) + cur_pulse_progress) / float(tot_pulses)
 				else:
 					progress = 1.0
+				if pulses_left==0:
+					progress = 1.0
 				
 				axis['pulses_left'] = pulses_left
 				axis['cur_pulse_progress'] = cur_pulse_progress
