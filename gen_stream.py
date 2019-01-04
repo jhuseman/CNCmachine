@@ -25,6 +25,14 @@ class gen_stream(object):
 						args.append(idlist[i])
 		if ident[:3]=='COM' or ident[:8]=='/dev/tty':
 			self.fobj = serial.Serial(ident, *args, **kwargs)
+			# additional setup for serial encoding support
+			def serial_write(stream_self, data):
+				if isinstance(data, str):
+					ser_data = data.encode('utf-8')
+				else:
+					ser_data = data
+				return self.fobj.write(ser_data)
+			setattr(self, 'write', serial_write)
 		elif ident=='STDIO':
 			self.fobj = stdio.stdio()
 		elif ident=='STDERR':
@@ -54,4 +62,4 @@ class gen_stream(object):
 #%% test
 if __name__=='__main__':
 	with gen_stream('STDIO') as a:
-		a.write(a.readline().encode('utf-8'))
+		a.write(a.readline())

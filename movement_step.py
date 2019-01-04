@@ -66,8 +66,8 @@ class MovementStep(object):
 		if zpulses!=0:
 			commands.append('zm{}'.format(zpulses))
 		for com in commands:
-			out_stream.write(com.encode('utf-8'))
-			out_stream.write('\n'.encode('utf-8'))
+			out_stream.write(com)
+			out_stream.write('\n')
 		out_stream.flush()
 		self.start_clock_time = time_manager.clock()
 		# wait for command to finish
@@ -135,7 +135,7 @@ class MovementStep(object):
 				}
 			return ret
 		else:
-			out_stream.write('xq\nyq\nzq\n'.encode('utf-8'))
+			out_stream.write('xq\nyq\nzq\n')
 			out_stream.flush()
 			axes = {}
 			for _ in range(3): #TODO: make this less dependent on returning exactly 3 lines in JSON format
@@ -217,5 +217,5 @@ class MovementStep(object):
 				state['Ypos'] = state['Ypos'] + vals['Y']
 				state['Zpos'] = state['Zpos'] + vals['Z']
 		else:
-			err_stream.write("WARNING: unrecognized Gcode command: {}\n".format(gcode_split.dict2gcode(gcode_tokens, token_order)).encode('utf-8'))
+			err_stream.write("WARNING: unrecognized Gcode command: {}\n".format(gcode_split.dict2gcode(gcode_tokens, token_order)))
 		return (ret, state)
