@@ -30,8 +30,6 @@ class MovementStep(object):
 			self.dx = self.x - self.prev_status['Xpos']
 			self.dy = self.y - self.prev_status['Ypos']
 			self.dz = self.z - self.prev_status['Zpos']
-		print(self.prev_status) #DEBUG
-		print(self.relative, self.dx, self.dy, self.dz) #DEBUG
 
 		# parameters used by query_status when having to estimate the position from elapsed time
 		self.start_clock_time = None
