@@ -10,7 +10,6 @@ import movement_step
 import gcode_split
 import time_calculations
 import status_display
-import jupyter_animate
 
 #%% define class
 class GcodeInterpreter(object):
