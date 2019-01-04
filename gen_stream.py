@@ -32,7 +32,13 @@ class gen_stream(object):
 				else:
 					ser_data = data
 				return self.fobj.write(ser_data)
+			def serial_read(*args, **kwargs):
+				return str(self.fobj.read(*args, **kwargs))
+			def serial_readline(*args, **kwargs):
+				return str(self.fobj.readline(*args, **kwargs))
 			setattr(self, 'write', serial_write)
+			setattr(self, 'read', serial_read)
+			setattr(self, 'readline', serial_readline)
 		elif ident=='STDIO':
 			self.fobj = stdio.stdio()
 		elif ident=='STDERR':
