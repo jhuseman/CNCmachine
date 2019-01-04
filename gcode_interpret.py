@@ -50,14 +50,14 @@ class GcodeInterpreter(object):
 			# comment - do nothing
 			return []
 		else:
-			self.error_stream.write("WARNING: unrecognized Gcode line: {}\n".format(line))
+			self.error_stream.write("WARNING: unrecognized Gcode line: {}\n".format(line).encode('utf-8'))
 			return []
 	
 	def interpret_continuously(self):
 		continuing = True
 		while continuing:
 			line = self.in_code_stream.readline()
-			self.error_stream.write(line) #DEBUG - output current line
+			self.error_stream.write(line.encode('utf-8')) #DEBUG - output current line
 			if line=='':
 				continuing = False
 			else:

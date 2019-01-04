@@ -54,4 +54,4 @@ class gen_stream(object):
 #%% test
 if __name__=='__main__':
 	with gen_stream('STDIO') as a:
-		a.write(a.readline())
+		a.write(a.readline().encode('utf-8'))
