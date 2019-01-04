@@ -153,8 +153,14 @@ class MovementStep(object):
 
 				tot_pulses = abs(units.convert_to_pulses(diff_axes[axis_label], self.calibration_info[axis_label], self.units))
 				pulses_left = abs(axis['target_pos']-axis['position'])
-				cur_pulse_progress = (axis['next_pulse'] - axis['cur_time'])/float(axis['pulse_spacing'])
-				progress = ((tot_pulses - pulses_left) + cur_pulse_progress) / float(tot_pulses)
+				if axis['pulse_spacing']==0:
+					cur_pulse_progress = 1.0
+				else:
+					cur_pulse_progress = (axis['next_pulse'] - axis['cur_time'])/float(axis['pulse_spacing'])
+				if tot_pulses > 0:
+					progress = ((tot_pulses - pulses_left) + cur_pulse_progress) / float(tot_pulses)
+				else:
+					progress = 1.0
 				
 				axis['pulses_left'] = pulses_left
 				axis['cur_pulse_progress'] = cur_pulse_progress
