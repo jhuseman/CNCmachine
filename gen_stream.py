@@ -31,7 +31,7 @@ class gen_stream(object):
 					ser_data = data.encode('utf-8')
 				else:
 					ser_data = data
-				return self.fobj.write(ser_data)
+				return stream_self.fobj.write(ser_data)
 			setattr(self, 'write', serial_write)
 		elif ident=='STDIO':
 			self.fobj = stdio.stdio()
