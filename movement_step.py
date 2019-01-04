@@ -140,6 +140,7 @@ class MovementStep(object):
 			axes = {}
 			for _ in range(3): #TODO: make this less dependent on returning exactly 3 lines in JSON format
 				line = in_stream.readline() #TODO: this seems to not get anything!
+				print(line) #DEBUG
 				axis_data = json.loads(line)
 				axes[axis_data['axis']] = axis_data['params']
 			diff_axes = {
