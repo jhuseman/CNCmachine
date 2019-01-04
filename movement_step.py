@@ -40,6 +40,7 @@ class MovementStep(object):
 			self.dy = self.y - self.prev_status['Ypos']
 			self.dz = self.z - self.prev_status['Zpos']
 		move_dist = math.sqrt(self.dx*self.dx + self.dy*self.dy + self.dz*self.dz)
+		print(self.relative, self.dx, self.dy, self.dz) #DEBUG
 		xpulses = units.convert_to_pulses(self.dx, self.calibration_info['x'], self.units)
 		ypulses = units.convert_to_pulses(self.dy, self.calibration_info['y'], self.units)
 		zpulses = units.convert_to_pulses(self.dz, self.calibration_info['z'], self.units)
@@ -66,6 +67,7 @@ class MovementStep(object):
 		if zpulses!=0:
 			commands.append('zm{}'.format(zpulses))
 		for com in commands:
+			print(com) #DEBUG
 			out_stream.write(com)
 			out_stream.write('\n')
 		out_stream.flush()
