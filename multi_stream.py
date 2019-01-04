@@ -59,7 +59,7 @@ class MultiStream(object):
 			for stream in self.streams:
 				thr = threading.Thread(target=gen_read_func(stream, recv_cb))
 				thr.daemon = True
-				stream.read_threads.append(thr)
+				self.read_threads.append(thr)
 				thr.start()
 		while len(self.read_cache) < size:
 			time.sleep(0.001)
