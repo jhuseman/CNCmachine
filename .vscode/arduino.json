@@ -1,5 +1,6 @@
 {
     "board": "arduino:avr:uno",
     "port": "COM5",
-    "sketch": "ArduinoStepper/ArduinoStepper.ino"
+    "sketch": "ArduinoStepper1.1/ArduinoStepper1.1.ino",
+    "output": "ArduinoBuild"
 }
