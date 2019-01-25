@@ -3,6 +3,7 @@
 #include <Arduino.h>
 
 #include "axis_list.h"
+#include "command_handler.h"
 
 class SerialHandler {
 	private:
@@ -12,6 +13,7 @@ class SerialHandler {
 
 		AxisList *axis_list;
 		HardwareSerial *command_stream;
+		CommandHandler *command_handler;
 	public:
 		SerialHandler(int command_in_buffer_maxlen_val, AxisList *axis_list_ref, HardwareSerial *command_stream_ref);
 		void run();

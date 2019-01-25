@@ -1,8 +1,13 @@
-#include "handle_command.h"
+#include "command_handler.h"
 #include "Axis.h"
 #include "cstr2number.h"
 
-void handle_command(char *command, HardwareSerial *out_stream, AxisList *axis_list) {
+CommandHandler::CommandHandler(HardwareSerial *out_stream_ref, AxisList *axis_list_ref) {
+	out_stream = out_stream_ref;
+	axis_list = axis_list_ref;
+}
+
+void CommandHandler::handle_command(char *command) {
 	char axis_id = 	command[0];
 	char action = 	command[1];
 	Axis * axis = NULL;
